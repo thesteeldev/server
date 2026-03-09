@@ -4,7 +4,712 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>💪 PowerDev - Dominate All Aspects of Life</title>
-    <link rel="stylesheet" href="/style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #000000;
+            --secondary: #1a1a1a;
+            --accent: #ff6b35;
+            --accent-light: #ff8c5a;
+            --text: #ffffff;
+            --text-secondary: #b0b0b0;
+            --border: #333333;
+            --success: #00d97e;
+            --danger: #ff3333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #0a0a0a 100%);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background: linear-gradient(90deg, rgba(0, 0, 0, 0.95) 0%, rgba(26, 26, 26, 0.95) 100%);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid var(--accent);
+            box-shadow: 0 4px 20px rgba(255, 107, 53, 0.1);
+        }
+
+        .navbar-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+
+        .logo-icon {
+            font-size: 2.2rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .logo-text {
+            background: linear-gradient(45deg, #ff6b35, #ff8c5a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--accent);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn-logout {
+            padding: 0.6rem 1.2rem;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background: var(--accent-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
+        }
+
+        /* LOGIN SECTION */
+        .login-section {
+            display: none;
+            min-height: 100vh;
+            padding: 2rem;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #0a0a0a 100%);
+        }
+
+        .login-section.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .login-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border: 2px solid var(--accent);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(255, 107, 53, 0.2);
+            animation: slideInLeft 0.6s ease;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, #ff6b35, #ff8c5a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .login-header p {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 0.85rem;
+            color: var(--accent);
+            margin-top: 0.5rem;
+        }
+
+        .login-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 0.8rem;
+            background: transparent;
+            border: 2px solid var(--border);
+            color: var(--text-secondary);
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .input-field {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(255, 107, 53, 0.1);
+        }
+
+        .input-field::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .login-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            animation: slideInRight 0.6s ease;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* BUTTONS */
+        .btn-primary {
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, #ff6b35, #ff8c5a);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(255, 107, 53, 0.4);
+        }
+
+        /* APP CONTAINER */
+        .app-container {
+            display: none;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .app-container.active {
+            display: block;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            margin-bottom: 2rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, #ff6b35, #ff8c5a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* DASHBOARD */
+        .dashboard-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .dashboard-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.15);
+        }
+
+        .dashboard-card.power-card {
+            background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+            border-color: var(--accent);
+            grid-column: 1 / -1;
+        }
+
+        .card-header h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .power-display {
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .power-meter {
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            border: 2px solid var(--accent);
+        }
+
+        .power-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ff6b35, #ff8c5a);
+            border-radius: 20px;
+            transition: width 0.5s ease;
+        }
+
+        .power-number {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #ff6b35, #ff8c5a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .dimension-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            grid-column: 1 / -1;
+        }
+
+        .dimension-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 3px solid;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .dimension-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-5px);
+        }
+
+        .dimension-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .dimension-card h4 {
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .slider {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(45deg, #ff6b35, #ff8c5a);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 107, 53, 0.5);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(45deg, #ff6b35, #ff8c5a);
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 10px rgba(255, 107, 53, 0.5);
+        }
+
+        .slider-value {
+            display: block;
+            font-weight: 700;
+            color: var(--accent);
+            margin-top: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .action-btn {
+            padding: 1rem;
+            background: rgba(255, 107, 53, 0.2);
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .action-btn:hover {
+            background: var(--accent);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .wins-list,
+        .goals-list,
+        .habits-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .list-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid var(--accent);
+            padding: 1.2rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .list-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .list-item h4 {
+            margin-bottom: 0.3rem;
+            color: var(--text);
+        }
+
+        .list-item p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .list-item-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .form-card,
+        .list-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-card h3,
+        .list-card h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .form-card > input,
+        .form-card > select,
+        .form-card > textarea {
+            margin-bottom: 1rem;
+        }
+
+        .textarea {
+            resize: vertical;
+            min-height: 120px;
+            font-family: inherit;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border: 2px solid var(--border);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .stat-card h3 {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .stat-display {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .stat-meter {
+            height: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 2px solid var(--border);
+        }
+
+        .stat-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ff6b35, #ff8c5a);
+            border-radius: 15px;
+            transition: width 0.5s ease;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-light);
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                grid-template-columns: 1fr;
+            }
+
+            .login-features {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .dimension-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+
+            .login-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- NAVIGATION -->
@@ -14,7 +719,7 @@
                 <span class="logo-icon">⚡</span>
                 <span class="logo-text">PowerDev</span>
             </div>
-            <ul class="nav-menu">
+            <ul class="nav-menu" id="nav-menu">
                 <li><a href="#" onclick="showSection('dashboard')" class="nav-link active">Dashboard</a></li>
                 <li><a href="#" onclick="showSection('goals')" class="nav-link">Goals</a></li>
                 <li><a href="#" onclick="showSection('habits')" class="nav-link">Habits</a></li>
@@ -38,24 +743,24 @@
                     <p>Transform Into Your Best Self</p>
                     <p class="subtitle">Dominate in Health • Wealth • Power • Influence • Skills • Relationships</p>
                 </div>
-                
+
                 <div class="login-body">
                     <div class="login-tabs">
-                        <button class="tab-btn active" onclick="switchTab('login')">Login</button>
-                        <button class="tab-btn" onclick="switchTab('register')">Register</button>
+                        <button class="tab-btn" id="login-btn" onclick="showLoginTab()">Login</button>
+                        <button class="tab-btn active" id="register-btn" onclick="showRegisterTab()">Register</button>
                     </div>
 
                     <!-- LOGIN TAB -->
-                    <div id="login-tab" class="tab-content active">
+                    <div id="login-tab" class="tab-content">
                         <input type="email" id="login-email" placeholder="Enter your email" class="input-field">
                         <button onclick="loginUser()" class="btn-primary">🔓 Access Your Power</button>
                     </div>
 
                     <!-- REGISTER TAB -->
-                    <div id="register-tab" class="tab-content">
+                    <div id="register-tab" class="tab-content active">
                         <input type="text" id="register-name" placeholder="Your Name" class="input-field">
                         <input type="email" id="register-email" placeholder="Email Address" class="input-field">
-                        <textarea id="register-vision" placeholder="Your Vision (What do you want to become?)" class="input-field"></textarea>
+                        <textarea id="register-vision" placeholder="Your Vision (What do you want to become?)" class="input-field textarea"></textarea>
                         <button onclick="registerUser()" class="btn-primary">🚀 Start Your Journey</button>
                     </div>
                 </div>
@@ -99,14 +804,13 @@
     <!-- MAIN APP SECTIONS -->
     <div id="app-container" class="app-container">
         <!-- DASHBOARD -->
-        <section id="dashboard" class="section">
+        <section id="dashboard" class="section active">
             <div class="section-header">
                 <h2>💪 Your Power Dashboard</h2>
                 <p>Monitor your journey to dominance</p>
             </div>
 
             <div class="dashboard-grid">
-                <!-- OVERALL POWER LEVEL -->
                 <div class="dashboard-card power-card">
                     <div class="card-header">
                         <h3>⚡ Overall Power Level</h3>
@@ -119,7 +823,6 @@
                     </div>
                 </div>
 
-                <!-- 6 DIMENSIONS OF POWER -->
                 <div class="dimension-grid">
                     <div class="dimension-card" style="border-color: #ff6b6b;">
                         <div class="dimension-icon">❤️</div>
@@ -159,7 +862,6 @@
                     </div>
                 </div>
 
-                <!-- QUICK ACTIONS -->
                 <div class="dashboard-card full-width">
                     <h3>Quick Actions</h3>
                     <div class="quick-actions">
@@ -170,13 +872,11 @@
                     </div>
                 </div>
 
-                <!-- RECENT WINS -->
                 <div class="dashboard-card full-width">
                     <h3>🏆 Recent Victories</h3>
                     <div id="recent-wins" class="wins-list"></div>
                 </div>
 
-                <!-- ACTIVE GOALS -->
                 <div class="dashboard-card full-width">
                     <h3>🎯 Active Goals</h3>
                     <div id="active-goals" class="goals-list"></div>
@@ -212,12 +912,6 @@
                         <option value="1-year">1 Year</option>
                         <option value="3-years">3 Years</option>
                         <option value="lifetime">Lifetime</option>
-                    </select>
-                    <select id="goal-importance" class="input-field">
-                        <option value="">Importance (1-10)</option>
-                        <option value="1">1 - Low</option>
-                        <option value="5">5 - Medium</option>
-                        <option value="10">10 - Critical</option>
                     </select>
                     <button onclick="createGoal()" class="btn-primary">🚀 Create Goal</button>
                 </div>
@@ -350,7 +1044,7 @@
 
                 <div class="list-card">
                     <h3>Your Mastermind Notes</h3>
-                    <div id="mastermind-list" class="mastermind-list"></div>
+                    <div id="mastermind-list" class="wins-list"></div>
                 </div>
             </div>
         </section>
@@ -387,6 +1081,449 @@
         </section>
     </div>
 
-    <script src="/script.js"></script>
+    <script>
+        // ========================
+        // 💪 POWERDEV JAVASCRIPT
+        // ========================
+
+        const API_BASE = 'http://localhost:5000/api';
+        let currentUser = null;
+        let currentEmail = null;
+        let localData = {
+            users: [],
+            goals: [],
+            habits: [],
+            wins: [],
+            mastermind: [],
+            stats: {}
+        };
+
+        // ========================
+        // TAB SWITCHING
+        // ========================
+        function showLoginTab() {
+            document.getElementById('login-tab').classList.add('active');
+            document.getElementById('register-tab').classList.remove('active');
+            document.getElementById('login-btn').classList.add('active');
+            document.getElementById('register-btn').classList.remove('active');
+        }
+
+        function showRegisterTab() {
+            document.getElementById('register-tab').classList.add('active');
+            document.getElementById('login-tab').classList.remove('active');
+            document.getElementById('register-btn').classList.add('active');
+            document.getElementById('login-btn').classList.remove('active');
+        }
+
+        // ========================
+        // AUTHENTICATION
+        // ========================
+        function registerUser() {
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const vision = document.getElementById('register-vision').value;
+
+            if (!name || !email || !vision) {
+                alert('Please fill all fields!');
+                return;
+            }
+
+            const user = { id: Date.now(), name, email, vision, createdAt: new Date() };
+            localData.users.push(user);
+            localStorage.setItem('powerdev_data', JSON.stringify(localData));
+
+            alert('🎉 Welcome to PowerDev! You are now registered!');
+            currentEmail = email;
+            currentUser = user;
+            localStorage.setItem('powerdev_user', email);
+            showApp();
+        }
+
+        function loginUser() {
+            const email = document.getElementById('login-email').value;
+
+            if (!email) {
+                alert('Please enter your email!');
+                return;
+            }
+
+            const user = localData.users.find(u => u.email === email);
+            if (!user) {
+                alert('User not found. Please register first!');
+                return;
+            }
+
+            currentEmail = email;
+            currentUser = user;
+            localStorage.setItem('powerdev_user', email);
+            showApp();
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                currentUser = null;
+                currentEmail = null;
+                localStorage.removeItem('powerdev_user');
+                location.reload();
+            }
+        }
+
+        // ========================
+        // UI NAVIGATION
+        // ========================
+        function showApp() {
+            document.getElementById('login-section').classList.remove('active');
+            document.getElementById('app-container').classList.add('active');
+            document.getElementById('username').textContent = currentUser.name;
+            showSection('dashboard');
+            loadDashboard();
+        }
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            if (sectionId === 'goals') loadGoals();
+            if (sectionId === 'habits') loadHabits();
+            if (sectionId === 'stats') loadStats();
+            if (sectionId === 'mastermind') loadMastermind();
+            if (sectionId === 'wins') loadWins();
+        }
+
+        // ========================
+        // DASHBOARD
+        // ========================
+        function loadDashboard() {
+            const email = currentEmail;
+            const userGoals = localData.goals.filter(g => g.email === email);
+            const userWins = localData.wins.filter(w => w.email === email);
+            const userStats = localData.stats[email] || { health: 0, wealth: 0, power: 0, influence: 0, skills: 0, relationships: 0, overall: 0 };
+
+            updatePowerDisplay(userStats);
+            displayRecentWins(userWins);
+            displayActiveGoals(userGoals);
+        }
+
+        function updatePowerDisplay(stats) {
+            const overall = stats.overall || 0;
+            document.getElementById('power-fill').style.width = overall + '%';
+            document.getElementById('power-number').textContent = overall;
+
+            document.getElementById('health-slider').value = stats.health || 0;
+            document.getElementById('wealth-slider').value = stats.wealth || 0;
+            document.getElementById('power-slider').value = stats.power || 0;
+            document.getElementById('influence-slider').value = stats.influence || 0;
+            document.getElementById('skills-slider').value = stats.skills || 0;
+            document.getElementById('relationships-slider').value = stats.relationships || 0;
+
+            updateSliderValues();
+        }
+
+        function updateSliderValues() {
+            document.getElementById('health-value').textContent = document.getElementById('health-slider').value;
+            document.getElementById('wealth-value').textContent = document.getElementById('wealth-slider').value;
+            document.getElementById('power-value').textContent = document.getElementById('power-slider').value;
+            document.getElementById('influence-value').textContent = document.getElementById('influence-slider').value;
+            document.getElementById('skills-value').textContent = document.getElementById('skills-slider').value;
+            document.getElementById('relationships-value').textContent = document.getElementById('relationships-slider').value;
+            updateStatsDisplay();
+        }
+
+        function updateStatsDisplay() {
+            const h = parseInt(document.getElementById('health-slider').value);
+            const w = parseInt(document.getElementById('wealth-slider').value);
+            const p = parseInt(document.getElementById('power-slider').value);
+            const i = parseInt(document.getElementById('influence-slider').value);
+            const s = parseInt(document.getElementById('skills-slider').value);
+            const r = parseInt(document.getElementById('relationships-slider').value);
+
+            document.getElementById('stat-health').style.width = h + '%';
+            document.getElementById('stat-health-value').textContent = h + '%';
+            document.getElementById('stat-wealth').style.width = w + '%';
+            document.getElementById('stat-wealth-value').textContent = w + '%';
+            document.getElementById('stat-power').style.width = p + '%';
+            document.getElementById('stat-power-value').textContent = p + '%';
+            document.getElementById('stat-influence').style.width = i + '%';
+            document.getElementById('stat-influence-value').textContent = i + '%';
+            document.getElementById('stat-skills').style.width = s + '%';
+            document.getElementById('stat-skills-value').textContent = s + '%';
+            document.getElementById('stat-relationships').style.width = r + '%';
+            document.getElementById('stat-relationships-value').textContent = r + '%';
+        }
+
+        function updatePowerStats() {
+            updateSliderValues();
+            const h = parseInt(document.getElementById('health-slider').value);
+            const w = parseInt(document.getElementById('wealth-slider').value);
+            const p = parseInt(document.getElementById('power-slider').value);
+            const i = parseInt(document.getElementById('influence-slider').value);
+            const s = parseInt(document.getElementById('skills-slider').value);
+            const r = parseInt(document.getElementById('relationships-slider').value);
+            const overall = Math.round((h + w + p + i + s + r) / 6);
+
+            localData.stats[currentEmail] = { health: h, wealth: w, power: p, influence: i, skills: s, relationships: r, overall };
+            localStorage.setItem('powerdev_data', JSON.stringify(localData));
+        }
+
+        function displayRecentWins(wins) {
+            const container = document.getElementById('recent-wins');
+            container.innerHTML = '';
+            if (wins.length === 0) {
+                container.innerHTML = '<p style="text-align:center;">No victories recorded yet. Start winning! 🏆</p>';
+                return;
+            }
+            wins.slice(0, 3).forEach(win => {
+                const el = document.createElement('div');
+                el.className = 'list-item';
+                el.innerHTML = `<h4>🏆 ${win.title}</h4><p>${win.description}</p><div class="list-item-meta"><span>${win.category}</span><span>${win.date}</span></div>`;
+                container.appendChild(el);
+            });
+        }
+
+        function displayActiveGoals(goals) {
+            const container = document.getElementById('active-goals');
+            container.innerHTML = '';
+            if (goals.length === 0) {
+                container.innerHTML = '<p style="text-align:center;">No goals set yet. Define your destiny! 🎯</p>';
+                return;
+            }
+            goals.slice(0, 3).forEach(goal => {
+                const el = document.createElement('div');
+                el.className = 'list-item';
+                el.innerHTML = `<h4>${goal.title}</h4><p>${goal.category} • ${goal.timeline}</p><div style="width: 100%; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; margin: 0.5rem 0;"><div style="width: ${goal.progress}%; height: 100%; background: linear-gradient(90deg, #ff6b35, #ff8c5a);"></div></div><div class="list-item-meta"><span>Progress: ${goal.progress}%</span></div>`;
+                container.appendChild(el);
+            });
+        }
+
+        // ========================
+        // GOALS
+        // ========================
+        function createGoal() {
+            const title = document.getElementById('goal-title').value;
+            const category = document.getElementById('goal-category').value;
+            const timeline = document.getElementById('goal-timeline').value;
+
+            if (!title || !category || !timeline) {
+                alert('Please fill all fields!');
+                return;
+            }
+
+            const goal = { id: Date.now(), email: currentEmail, title, category, timeline, progress: 0, date: new Date().toLocaleDateString() };
+            localData.goals.push(goal);
+            localStorage.setItem('powerdev_data', JSON.stringify(localData));
+
+            alert('🎯 Goal Created!');
+            document.getElementById('goal-title').value = '';
+            document.getElementById('goal-category').value = '';
+            document.getElementById('goal-timeline').value = '';
+            loadGoals();
+        }
+
+        function loadGoals() {
+            const goals = localData.goals.filter(g => g.email === currentEmail);
+            const container = document.getElementById('goals-list');
+            container.innerHTML = '';
+
+            if (goals.length === 0) {
+                container.innerHTML = '<p style="text-align:center;">No goals yet. Set your first goal now! 🚀</p>';
+                return;
+            }
+
+            goals.forEach(goal => {
+                const el = document.createElement('div');
+                el.className = 'list-item';
+                el.innerHTML = `<h4>${goal.title}</h4><p>${goal.category} • ${goal.timeline}</p><div style="display: flex; gap: 1rem; align-items: center; margin: 0.5rem 0;"><input type="range" min="0" max="100" value="${goal.progress}" class="slider" style="flex: 1;" onchange="updateGoalProgress('${goal.id}', this.value)"><span style="color: var(--accent); font-weight: 700;">${goal.progress}%</span></div>`;
+                container.appendChild(el);
+            });
+        }
+
+        function updateGoalProgress(goalId, progress) {
+            const goal = localData.goals.find(g => g.id == goalId);
+            if (goal) {
+                goal.progress = progress;
+                localStorage.setItem('powerdev_data', JSON.stringify(localData));
+            }
+        }
+
+        // ========================
+        // HABITS
+        // ========================
+        function createHabit() {
+            const name = document.getElementById('habit-name').value;
+            const category = document.getElementById('habit-category').value;
+
+            if (!name || !category) {
+                alert('Please fill all fields!');
+                return;
+            }
+
+            const habit = { id: Date.now(), email: currentEmail, name, category, streak: 0, completedDates: [], createdAt: new Date().toLocaleDateString() };
+            localData.habits.push(habit);
+            localStorage.setItem('powerdev_data', JSON.stringify(localData));
+
+            alert('🔥 Habit Created!');
+            document.getElementById('habit-name').value = '';
+            document.getElementById('habit-category').value = '';
+            loadHabits();
+        }
+
+        function loadHabits() {
+            const habits = localData.habits.filter(h => h.email === currentEmail);
+            const container = document.getElementById('habits-list');
+            container.innerHTML = '';
+
+            if (habits.length === 0) {
+                container.innerHTML = '<p style="text-align:center;">No habits yet. Start building daily power! 💪</p>';
+                return;
+            }
+
+            habits.forEach(habit => {
+                const today = new Date().toLocaleDateString();
+                const isCompletedToday = habit.completedDates.includes(today);
+                const el = document.createElement('div');
+                el.className = 'list-item';
+                el.innerHTML = `<h4>${habit.name}</h4><p>${habit.category}</p><div class="list-item-meta"><span>🔥 Streak: ${habit.streak} days</span><button class="action-btn" style="padding: 0.3rem 0.8rem; font-size: 0.8rem;" onclick="completeHabit('${habit.id}')" ${isCompletedToday ? 'disabled' : ''}>${isCompletedToday ? '✅ Done Today' : '✅ Complete'}</button></div>`;
+                container.appendChild(el);
+            });
+        }
+
+        function completeHabit(habitId) {
+            const habit = localData.habits.find(h => h.id == habitId);
+            if (habit) {
+                const today = new Date().toLocaleDateString();
+                if (!habit.completedDates.includes(today)) {
+                    habit.completedDates.push(today);
+                    habit.streak = habit.completedDates.length;
+                    localStorage.setItem('powerdev_data', JSON.stringify(localData));
+                    alert(`🔥 Habit Completed! Streak: ${habit.streak}`);
+                    loadHabits();
+                } else {
+                    alert('Already completed today!');
+                }
+            }
+        }
+
+        // ========================
+        // STATS
+        // ========================
+        function loadStats() {
+            const stats = localData.stats[currentEmail] || { health: 0, wealth: 0, power: 0, influence: 0, skills: 0, relationships: 0, overall: 0 };
+            updatePowerDisplay(stats);
+        }
+
+        // ========================
+        // MASTERMIND
+        // ========================
+        function saveMastermind() {
+            const title = document.getElementById('mastermind-title').value;
+            const category = document.getElementById('mastermind-category').value;
+            const content = document.getElementById('mastermind-content').value;
+
+            if (!title || !category || !content) {
+                alert('Please fill all fields!');
+                return;
+            }
+
+            const note = { id: Date.now(), email: currentEmail, title, category, content, date: new Date().toLocaleDateString() };
+            localData.mastermind.push(note);
+            localStorage.setItem('powerdev_data', JSON.stringify(localData));
+
+            alert('💡 Insight Saved!');
+            document.getElementById('mastermind-title').value = '';
+            document.getElementById('mastermind-category').value = '';
+            document.getElementById('mastermind-content').value = '';
+            loadMastermind();
+        }
+
+        function loadMastermind() {
+            const notes = localData.mastermind.filter(n => n.email === currentEmail);
+            const container = document.getElementById('mastermind-list');
+            container.innerHTML = '';
+
+            if (notes.length === 0) {
+                container.innerHTML = '<p style="text-align:center;">No insights yet. Start capturing wisdom! 🧠</p>';
+                return;
+            }
+
+            notes.reverse().forEach(note => {
+                const el = document.createElement('div');
+                el.className = 'list-item';
+                el.innerHTML = `<h4>${note.title}</h4><p>${note.content}</p><div class="list-item-meta"><span>${note.category}</span><span>${note.date}</span></div>`;
+                container.appendChild(el);
+            });
+        }
+
+        // ========================
+        // WINS
+        // ========================
+        function recordWin() {
+            const title = document.getElementById('win-title').value;
+            const category = document.getElementById('win-category').value;
+            const description = document.getElementById('win-description').value;
+
+            if (!title || !category || !description) {
+                alert('Please fill all fields!');
+                return;
+            }
+
+            const win = { id: Date.now(), email: currentEmail, title, category, description, date: new Date().toLocaleDateString() };
+            localData.wins.push(win);
+            localStorage.setItem('powerdev_data', JSON.stringify(localData));
+
+            alert('🏆 Victory Recorded!');
+            document.getElementById('win-title').value = '';
+            document.getElementById('win-category').value = '';
+            document.getElementById('win-description').value = '';
+            loadWins();
+            loadDashboard();
+        }
+
+        function loadWins() {
+            const wins = localData.wins.filter(w => w.email === currentEmail);
+            const container = document.getElementById('wins-list');
+            container.innerHTML = '';
+
+            if (wins.length === 0) {
+                container.innerHTML = '<p style="text-align:center;">No victories yet. Go achieve something! 🚀</p>';
+                return;
+            }
+
+            wins.reverse().forEach(win => {
+                const el = document.createElement('div');
+                el.className = 'list-item';
+                el.innerHTML = `<h4>🏆 ${win.title}</h4><p>${win.description}</p><div class="list-item-meta"><span>${win.category}</span><span>${win.date}</span></div>`;
+                container.appendChild(el);
+            });
+        }
+
+        // ========================
+        // INITIALIZATION
+        // ========================
+        window.addEventListener('load', () => {
+            const savedData = localStorage.getItem('powerdev_data');
+            if (savedData) {
+                localData = JSON.parse(savedData);
+            }
+
+            const savedUser = localStorage.getItem('powerdev_user');
+            if (savedUser) {
+                const user = localData.users.find(u => u.email === savedUser);
+                if (user) {
+                    currentEmail = savedUser;
+                    currentUser = user;
+                    showApp();
+                }
+            }
+
+            showRegisterTab();
+        });
+    </script>
 </body>
 </html>
