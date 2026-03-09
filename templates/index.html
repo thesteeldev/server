@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💪 PowerDev - Dominate All Aspects of Life</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- NAVIGATION -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="logo">
+                <span class="logo-icon">⚡</span>
+                <span class="logo-text">PowerDev</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#" onclick="showSection('dashboard')" class="nav-link active">Dashboard</a></li>
+                <li><a href="#" onclick="showSection('goals')" class="nav-link">Goals</a></li>
+                <li><a href="#" onclick="showSection('habits')" class="nav-link">Habits</a></li>
+                <li><a href="#" onclick="showSection('stats')" class="nav-link">Power Stats</a></li>
+                <li><a href="#" onclick="showSection('mastermind')" class="nav-link">Mastermind</a></li>
+                <li><a href="#" onclick="showSection('wins')" class="nav-link">Victories</a></li>
+            </ul>
+            <div class="user-info">
+                <span id="username">Welcome</span>
+                <button class="btn-logout" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- LOGIN SECTION -->
+    <section id="login-section" class="login-section active">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-header">
+                    <h1>💪 POWERDEV</h1>
+                    <p>Transform Into Your Best Self</p>
+                    <p class="subtitle">Dominate in Health • Wealth • Power • Influence • Skills • Relationships</p>
+                </div>
+                
+                <div class="login-body">
+                    <div class="login-tabs">
+                        <button class="tab-btn active" onclick="switchTab('login')">Login</button>
+                        <button class="tab-btn" onclick="switchTab('register')">Register</button>
+                    </div>
+
+                    <!-- LOGIN TAB -->
+                    <div id="login-tab" class="tab-content active">
+                        <input type="email" id="login-email" placeholder="Enter your email" class="input-field">
+                        <button onclick="loginUser()" class="btn-primary">🔓 Access Your Power</button>
+                    </div>
+
+                    <!-- REGISTER TAB -->
+                    <div id="register-tab" class="tab-content">
+                        <input type="text" id="register-name" placeholder="Your Name" class="input-field">
+                        <input type="email" id="register-email" placeholder="Email Address" class="input-field">
+                        <textarea id="register-vision" placeholder="Your Vision (What do you want to become?)" class="input-field"></textarea>
+                        <button onclick="registerUser()" class="btn-primary">🚀 Start Your Journey</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="login-features">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Domination Goals</h3>
+                    <p>Set and crush goals across all life areas</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔥</div>
+                    <h3>Power Habits</h3>
+                    <p>Build unbreakable daily habits that compound</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3>Power Stats</h3>
+                    <p>Track your progress across 6 dimensions</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Mastermind</h3>
+                    <p>Capture strategies and wisdom daily</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏆</div>
+                    <h3>Victory Log</h3>
+                    <p>Celebrate and track every win</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💎</div>
+                    <h3>Lifetime Build</h3>
+                    <p>Become the most powerful version of yourself</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN APP SECTIONS -->
+    <div id="app-container" class="app-container">
+        <!-- DASHBOARD -->
+        <section id="dashboard" class="section">
+            <div class="section-header">
+                <h2>💪 Your Power Dashboard</h2>
+                <p>Monitor your journey to dominance</p>
+            </div>
+
+            <div class="dashboard-grid">
+                <!-- OVERALL POWER LEVEL -->
+                <div class="dashboard-card power-card">
+                    <div class="card-header">
+                        <h3>⚡ Overall Power Level</h3>
+                    </div>
+                    <div class="power-display">
+                        <div class="power-meter">
+                            <div class="power-fill" id="power-fill"></div>
+                        </div>
+                        <div class="power-number" id="power-number">0</div>
+                    </div>
+                </div>
+
+                <!-- 6 DIMENSIONS OF POWER -->
+                <div class="dimension-grid">
+                    <div class="dimension-card" style="border-color: #ff6b6b;">
+                        <div class="dimension-icon">❤️</div>
+                        <h4>Health</h4>
+                        <input type="range" min="0" max="100" id="health-slider" class="slider" onchange="updatePowerStats()">
+                        <span class="slider-value" id="health-value">0</span>
+                    </div>
+                    <div class="dimension-card" style="border-color: #51cf66;">
+                        <div class="dimension-icon">💰</div>
+                        <h4>Wealth</h4>
+                        <input type="range" min="0" max="100" id="wealth-slider" class="slider" onchange="updatePowerStats()">
+                        <span class="slider-value" id="wealth-value">0</span>
+                    </div>
+                    <div class="dimension-card" style="border-color: #4c6ef5;">
+                        <div class="dimension-icon">⚡</div>
+                        <h4>Power</h4>
+                        <input type="range" min="0" max="100" id="power-slider" class="slider" onchange="updatePowerStats()">
+                        <span class="slider-value" id="power-value">0</span>
+                    </div>
+                    <div class="dimension-card" style="border-color: #ff922b;">
+                        <div class="dimension-icon">👑</div>
+                        <h4>Influence</h4>
+                        <input type="range" min="0" max="100" id="influence-slider" class="slider" onchange="updatePowerStats()">
+                        <span class="slider-value" id="influence-value">0</span>
+                    </div>
+                    <div class="dimension-card" style="border-color: #a78bfa;">
+                        <div class="dimension-icon">🧠</div>
+                        <h4>Skills</h4>
+                        <input type="range" min="0" max="100" id="skills-slider" class="slider" onchange="updatePowerStats()">
+                        <span class="slider-value" id="skills-value">0</span>
+                    </div>
+                    <div class="dimension-card" style="border-color: #f472b6;">
+                        <div class="dimension-icon">🤝</div>
+                        <h4>Relationships</h4>
+                        <input type="range" min="0" max="100" id="relationships-slider" class="slider" onchange="updatePowerStats()">
+                        <span class="slider-value" id="relationships-value">0</span>
+                    </div>
+                </div>
+
+                <!-- QUICK ACTIONS -->
+                <div class="dashboard-card full-width">
+                    <h3>Quick Actions</h3>
+                    <div class="quick-actions">
+                        <button class="action-btn" onclick="showSection('goals')">➕ New Goal</button>
+                        <button class="action-btn" onclick="showSection('habits')">🔥 Add Habit</button>
+                        <button class="action-btn" onclick="showSection('mastermind')">💡 Mastermind Note</button>
+                        <button class="action-btn" onclick="showSection('wins')">🏆 Record Win</button>
+                    </div>
+                </div>
+
+                <!-- RECENT WINS -->
+                <div class="dashboard-card full-width">
+                    <h3>🏆 Recent Victories</h3>
+                    <div id="recent-wins" class="wins-list"></div>
+                </div>
+
+                <!-- ACTIVE GOALS -->
+                <div class="dashboard-card full-width">
+                    <h3>🎯 Active Goals</h3>
+                    <div id="active-goals" class="goals-list"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GOALS SECTION -->
+        <section id="goals" class="section">
+            <div class="section-header">
+                <h2>🎯 Domination Goals</h2>
+                <p>Set and crush goals that transform your life</p>
+            </div>
+
+            <div class="content-wrapper">
+                <div class="form-card">
+                    <h3>Create New Goal</h3>
+                    <input type="text" id="goal-title" placeholder="Goal Title" class="input-field">
+                    <select id="goal-category" class="input-field">
+                        <option value="">Select Category</option>
+                        <option value="health">❤️ Health</option>
+                        <option value="wealth">💰 Wealth</option>
+                        <option value="power">⚡ Power</option>
+                        <option value="influence">👑 Influence</option>
+                        <option value="skills">🧠 Skills</option>
+                        <option value="relationships">🤝 Relationships</option>
+                    </select>
+                    <select id="goal-timeline" class="input-field">
+                        <option value="">Select Timeline</option>
+                        <option value="1-month">1 Month</option>
+                        <option value="3-months">3 Months</option>
+                        <option value="6-months">6 Months</option>
+                        <option value="1-year">1 Year</option>
+                        <option value="3-years">3 Years</option>
+                        <option value="lifetime">Lifetime</option>
+                    </select>
+                    <select id="goal-importance" class="input-field">
+                        <option value="">Importance (1-10)</option>
+                        <option value="1">1 - Low</option>
+                        <option value="5">5 - Medium</option>
+                        <option value="10">10 - Critical</option>
+                    </select>
+                    <button onclick="createGoal()" class="btn-primary">🚀 Create Goal</button>
+                </div>
+
+                <div class="list-card">
+                    <h3>Your Goals</h3>
+                    <div id="goals-list" class="goals-list"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HABITS SECTION -->
+        <section id="habits" class="section">
+            <div class="section-header">
+                <h2>🔥 Power Habits</h2>
+                <p>Build daily habits that compound into greatness</p>
+            </div>
+
+            <div class="content-wrapper">
+                <div class="form-card">
+                    <h3>Add Daily Habit</h3>
+                    <input type="text" id="habit-name" placeholder="Habit Name" class="input-field">
+                    <select id="habit-category" class="input-field">
+                        <option value="">Select Category</option>
+                        <option value="morning">🌅 Morning Routine</option>
+                        <option value="fitness">💪 Fitness</option>
+                        <option value="learning">📚 Learning</option>
+                        <option value="meditation">🧘 Meditation</option>
+                        <option value="nutrition">🥗 Nutrition</option>
+                        <option value="reading">📖 Reading</option>
+                        <option value="networking">🤝 Networking</option>
+                        <option value="reflection">🪞 Reflection</option>
+                    </select>
+                    <button onclick="createHabit()" class="btn-primary">✅ Add Habit</button>
+                </div>
+
+                <div class="list-card">
+                    <h3>Your Habits</h3>
+                    <div id="habits-list" class="habits-list"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- POWER STATS SECTION -->
+        <section id="stats" class="section">
+            <div class="section-header">
+                <h2>📈 Power Stats</h2>
+                <p>Track your progress across 6 dimensions of power</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>❤️ Health</h3>
+                    <div class="stat-display">
+                        <div class="stat-meter">
+                            <div class="stat-fill" id="stat-health"></div>
+                        </div>
+                        <span class="stat-value" id="stat-health-value">0%</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <h3>💰 Wealth</h3>
+                    <div class="stat-display">
+                        <div class="stat-meter">
+                            <div class="stat-fill" id="stat-wealth"></div>
+                        </div>
+                        <span class="stat-value" id="stat-wealth-value">0%</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <h3>⚡ Power</h3>
+                    <div class="stat-display">
+                        <div class="stat-meter">
+                            <div class="stat-fill" id="stat-power"></div>
+                        </div>
+                        <span class="stat-value" id="stat-power-value">0%</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <h3>👑 Influence</h3>
+                    <div class="stat-display">
+                        <div class="stat-meter">
+                            <div class="stat-fill" id="stat-influence"></div>
+                        </div>
+                        <span class="stat-value" id="stat-influence-value">0%</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <h3>🧠 Skills</h3>
+                    <div class="stat-display">
+                        <div class="stat-meter">
+                            <div class="stat-fill" id="stat-skills"></div>
+                        </div>
+                        <span class="stat-value" id="stat-skills-value">0%</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <h3>🤝 Relationships</h3>
+                    <div class="stat-display">
+                        <div class="stat-meter">
+                            <div class="stat-fill" id="stat-relationships"></div>
+                        </div>
+                        <span class="stat-value" id="stat-relationships-value">0%</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MASTERMIND SECTION -->
+        <section id="mastermind" class="section">
+            <div class="section-header">
+                <h2>🧠 Mastermind Journal</h2>
+                <p>Capture strategies, wisdom, and insights</p>
+            </div>
+
+            <div class="content-wrapper">
+                <div class="form-card">
+                    <h3>Record Insight</h3>
+                    <input type="text" id="mastermind-title" placeholder="Title" class="input-field">
+                    <select id="mastermind-category" class="input-field">
+                        <option value="">Category</option>
+                        <option value="strategy">🎯 Strategy</option>
+                        <option value="philosophy">📖 Philosophy</option>
+                        <option value="tactics">⚙️ Tactics</option>
+                        <option value="inspiration">✨ Inspiration</option>
+                    </select>
+                    <textarea id="mastermind-content" placeholder="Your insight..." class="input-field textarea"></textarea>
+                    <button onclick="saveMastermind()" class="btn-primary">💾 Save Insight</button>
+                </div>
+
+                <div class="list-card">
+                    <h3>Your Mastermind Notes</h3>
+                    <div id="mastermind-list" class="mastermind-list"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WINS SECTION -->
+        <section id="wins" class="section">
+            <div class="section-header">
+                <h2>🏆 Victory Log</h2>
+                <p>Celebrate every win, no matter how small</p>
+            </div>
+
+            <div class="content-wrapper">
+                <div class="form-card">
+                    <h3>Record Victory</h3>
+                    <input type="text" id="win-title" placeholder="What did you accomplish?" class="input-field">
+                    <select id="win-category" class="input-field">
+                        <option value="">Category</option>
+                        <option value="health">❤️ Health</option>
+                        <option value="wealth">💰 Wealth</option>
+                        <option value="power">⚡ Power</option>
+                        <option value="influence">👑 Influence</option>
+                        <option value="skills">🧠 Skills</option>
+                        <option value="relationships">🤝 Relationships</option>
+                    </select>
+                    <textarea id="win-description" placeholder="Details of your victory..." class="input-field textarea"></textarea>
+                    <button onclick="recordWin()" class="btn-primary">🎉 Record Victory</button>
+                </div>
+
+                <div class="list-card">
+                    <h3>Your Victories</h3>
+                    <div id="wins-list" class="wins-list"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="/static/js/script.js"></script>
+</body>
+</html>
