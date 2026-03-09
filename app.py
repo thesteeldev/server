@@ -12,7 +12,6 @@ from urllib.parse import quote_plus
 app = Flask(__name__)
 CORS(app)
 
-
 # ==========================================
 # 💪 POWERDEV - PERSONAL TRANSFORMATION OS
 # ==========================================
@@ -23,25 +22,24 @@ def get_mongo_uri():
     # Check if full URI is in environment (for Render/deployment)
     if 'MONGO_URI' in os.environ:
         return os.environ['MONGO_URI']
-
+    
     # If not, construct from components (for local development)
     mongo_user = os.environ.get('MONGO_USER', 'admin')
     mongo_password = os.environ.get('MONGO_PASSWORD', 'password')
     mongo_cluster = os.environ.get('MONGO_CLUSTER', 'mongodb+srv')
     mongo_host = os.environ.get('MONGO_HOST', 'localhost:27017')
     mongo_db = os.environ.get('MONGO_DB', 'powerdev')
-
+    
     # URL encode username and password (handles special characters)
     encoded_user = quote_plus(mongo_user)
     encoded_password = quote_plus(mongo_password)
-
+    
     if mongo_cluster == 'mongodb+srv':
         # MongoDB Atlas format
         return f"mongodb+srv://{encoded_user}:{encoded_password}@{mongo_host.split(':')[0]}/{mongo_db}?retryWrites=true&w=majority"
     else:
         # Local MongoDB format
         return f"mongodb://{encoded_user}:{encoded_password}@{mongo_host}/{mongo_db}"
-
 
 MONGO_URI = get_mongo_uri()
 
@@ -51,7 +49,7 @@ try:
     # Test connection
     client.admin.command('ping')
     db = client.get_database("powerdev")
-
+    
     # Collections
     users_collection = db["users"]
     goals_collection = db["goals"]
@@ -59,7 +57,7 @@ try:
     power_stats_collection = db["power_stats"]
     mastermind_collection = db["mastermind"]
     wins_collection = db["wins"]
-
+    
     print("✅ PowerDev Database Connected (All Systems Go)!")
 except Exception as e:
     print(f"❌ Database Error: {e}")
@@ -74,7 +72,7 @@ def home():
 
 @app.route('/api/health', methods=['GET'])
 def health_check():
-    """Health check endpoint for Render"""
+    """Health check endpoint for deployment platforms"""
     return jsonify({"status": "🚀 PowerDev Server Running!", "message": "All Systems Go"}), 200
 
 
@@ -227,7 +225,7 @@ def complete_habit():
         data = request.json
         habit_id = data.get("habit_id")
         today = datetime.now().strftime("%Y-%m-%d")
-
+        
         habit = daily_habits_collection.find_one({"_id": ObjectId(habit_id)})
         if habit:
             completed = habit.get("completed_dates", [])
@@ -276,7 +274,7 @@ def update_power_stats():
     try:
         data = request.json
         email = data.get("email")
-
+        
         h = data.get("health", 0)
         w = data.get("wealth", 0)
         p = data.get("power", 0)
@@ -284,7 +282,7 @@ def update_power_stats():
         s = data.get("skills", 0)
         r = data.get("relationships", 0)
         overall = int((h + w + p + i + s + r) / 6)
-
+        
         power_stats_collection.update_one(
             {"email": email},
             {"$set": {
@@ -388,25 +386,25 @@ def get_dashboard(email):
         goals = list(goals_collection.find({"email": email}).limit(5))
         habits = list(daily_habits_collection.find({"email": email}).limit(10))
         wins = list(wins_collection.find({"email": email}).limit(5))
-
+        
         # Convert ObjectIds to strings
         for goal in goals:
             goal['_id'] = str(goal['_id'])
             goal['timestamp'] = str(goal['timestamp'])
-
+        
         for habit in habits:
             habit['_id'] = str(habit['_id'])
-
+        
         for win in wins:
             win['_id'] = str(win['_id'])
             win['timestamp'] = str(win['timestamp'])
-
+        
         if stats:
             stats['_id'] = str(stats['_id'])
-
+        
         if user:
             user['_id'] = str(user['_id'])
-
+        
         return jsonify({
             "user": user,
             "stats": stats,
